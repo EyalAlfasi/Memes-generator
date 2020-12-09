@@ -1,0 +1,38 @@
+/* BASE STYLE */
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* LAYOUT */
+
+.header-container {
+    background-color: rgb(223, 223, 223);
+    padding: 0 20px;
+    position: fixed;
+    right: 0;
+    left: 0;
+}
+
+.header-inner-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-inner-container>nav>ul {
+    display: flex;
+}
+
+.header-inner-container>nav>ul>li:not(:first-child) {
+    margin-left: 20px;
+}
