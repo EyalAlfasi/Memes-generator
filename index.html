@@ -27,7 +27,44 @@
         <div class="canvas-container">
             <canvas class="main-canvas"></canvas>
         </div>
-        <div class="controlles-container"></div>
+        <div class="controlles-container">
+            <div class="editing-row editing-row-1">
+                <input on oninput="onLineTyping(this.value)" type="text" placeholder="Caption" class="text-line">
+            </div>
+            <div class="editing-row editing-row-2">
+                <button class="icon-btn" value="up-down" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
+                <button class="icon-btn" value="add" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/add.png"></button>
+                <button class="icon-btn" value="trash" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/trash.png"></button>
+            </div>
+            <div class="editing-row editing-row-3">
+                <button class="icon-btn" value="increase-font" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/increase-font-icon.png"></button>
+                <button class="icon-btn" value="decrease-font" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/decrease-font-icon.png"></button>
+                <button class="icon-btn" value="align-left" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/align-to-left.png"></button>
+                <button class="icon-btn" value="align-center" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/center-text-alignment.png"></button>
+                <button class="icon-btn" value="align-right" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/align-to-right.png"></button>
+            </div>
+            <div class="editing-row editing-row-4">
+                <select name="fonts">
+                    <option value="impact">Impact</option>
+                </select>
+                <button class="icon-btn" value="stroke" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/text-stroke.png"></button>
+                <button class="icon-btn" value="font-color" onclick="onControlBtnClick(this.value)"><img
+                        src="icons/paint-board-and-brush.png"></button>
+            </div>
+        </div>
+    </section>
+    <section class="imgs-gallery-container">
+        <div class="imgs-gallery-inner-container">
+        </div>
     </section>
 
     <script src="js/meme-controller.js"></script>
