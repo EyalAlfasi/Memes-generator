@@ -2,16 +2,17 @@
 
 var gCanvas;
 var gCtx;
+var isMouseDown = false;
+
 
 function init() {
     gCanvas = document.querySelector('.main-canvas');
     addCanvasEventListeners();
     gCtx = gCanvas.getContext('2d');
-    gCanvas.width = '500';
-    gCanvas.height = '500';
+    gCanvas.width = '400';
+    gCanvas.height = '400';
     renderImgsGallery();
 }
-
 
 function onControlBtnClick(actionName) {
     switch (actionName) {
@@ -39,6 +40,11 @@ function onControlBtnClick(actionName) {
             onAddLine();
         }
             break
+        case 'up-down': {
+            console.log('hi');
+            onMoveBetweenLines();
+        }
+            break
     }
     clearCanvas();
     drawCanvas();
@@ -52,9 +58,8 @@ function drawCanvas() {
 function drawText() {
     const meme = getCurrMeme()
     if (!meme) return;
-    const x = gCanvas.width / 2;
-    const y = gCanvas.height / 2 * 0.25;
     meme.lines.forEach(line => {
+        const location = line.location;
         gCtx.lineWidth = `${line.strokeWidth}`
         gCtx.font = `${line.size}px Impact`
         gCtx.textAlign = `${line.align}`
@@ -62,16 +67,19 @@ function drawText() {
         gCtx.fillStyle = `${line.color}`;
         gCtx.strokeStyle = `${line.strokeColor}`;
         const txtWidth = gCtx.measureText(line.txt).width;
-        gCtx.fillText(line.txt, x, y)
-        gCtx.strokeText(line.txt, x, y)
-        setLineLocation({ x: x, y: y, width: txtWidth, height: line.strokeWidth + line.size });
-        if (line.marked) drawFrame(line);
-        // drawPointer(x, y, txtWidth, line.strokeWidth + line.size)
+        gCtx.fillText(line.txt, location.x, location.y)
+        gCtx.strokeText(line.txt, location.x, location.y)
+        if (meme.selectedLineIdx === line.idx) {
+            setLineLocation({ x: location.x, y: location.y, width: txtWidth, height: line.strokeWidth + line.size });
+        }
+        if (line.isMarked) drawFrame(line);
     });
 }
 
 function onImgPick(imgId) {
     createMeme(imgId);
+    showEditor();
+    hideImgGallery();
     drawCanvas();
 }
 
@@ -93,9 +101,12 @@ function drawImg() {
 }
 
 function onLineTyping(txt) {
-    setLineTxt(txt)
-    clearCanvas();
-    drawCanvas(txt);
+    const line = getCurrLine();
+    if (line.isMarked) {
+        setLineTxt(txt)
+        clearCanvas();
+        drawCanvas(txt);
+    }
 }
 
 function renderImgsGallery() {
@@ -107,24 +118,35 @@ function renderImgsGallery() {
     elImgsContainer.innerHTML = strHTMLs;
 }
 
-
 function clearCanvas() {
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 }
 
 function addCanvasEventListeners() {
-    gCanvas.addEventListener('click', markCurrLine);
+    gCanvas.addEventListener('click', onMarkLine);
+    gCanvas.addEventListener('mousemove', onDragLine);
 }
 
-
-function markCurrLine(ev) {
+function onMarkLine(ev) {
     const offset = { x: ev.offsetX, y: ev.offsetY };
     const line = getLineClicked(offset)
-    if (line && !line.marked) {
-        toggleLineMark(true);
+    console.log(line);
+    if (!line) {
+        unMarkAllLines();
         drawCanvas();
-    } else {
-        toggleLineMark(false);
+        return
+    }
+    updateSelectedLineIdx(line.idx)
+    unMarkAllLines();
+    toggleLineMark();
+    drawCanvas();
+}
+
+function onDragLine(ev) {
+    const offset = { x: ev.offsetX, y: ev.offsetY };
+    const line = getLineClicked(offset)
+    if (line && isMouseDown) {
+        setLineLocation({ x: offset.x, y: offset.y - line.location.height / 2, width: line.location.width, height: line.location.height });
         drawCanvas();
     }
 }
@@ -134,5 +156,22 @@ function onAlignText(alignVal) {
 }
 
 function onAddLine() {
+    unMarkAllLines();
     addLine();
+}
+
+function onMoveBetweenLines() {
+    moveBetweenLines();
+}
+
+function updateMouseDown(val) {
+    isMouseDown = val;
+}
+
+function showEditor(){
+    document.querySelector('.canvas-and-controlles-container').style.display = 'flex';
+}
+
+function hideImgGallery(){
+    document.querySelector('.imgs-gallery-container').style.display = 'none';
 }

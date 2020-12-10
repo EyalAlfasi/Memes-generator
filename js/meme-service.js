@@ -7,9 +7,23 @@ var gImgs = [
     { id: 3, url: 'meme-imgs-square/3.jpg', keywords: ['crazy'] },
     { id: 4, url: 'meme-imgs-square/4.jpg', keywords: ['fun'] },
     { id: 5, url: 'meme-imgs-square/5.jpg', keywords: ['Music'] },
+    { id: 6, url: 'meme-imgs-square/6.jpg', keywords: ['happy'] },
+    { id: 7, url: 'meme-imgs-square/7.jpg', keywords: ['sad'] },
+    { id: 8, url: 'meme-imgs-square/8.jpg', keywords: ['crazy'] },
+    { id: 9, url: 'meme-imgs-square/9.jpg', keywords: ['fun'] },
+    { id: 10, url: 'meme-imgs-square/10.jpg', keywords: ['Music'] },
+    { id: 11, url: 'meme-imgs-square/11.jpg', keywords: ['happy'] },
+    { id: 12, url: 'meme-imgs-square/12.jpg', keywords: ['sad'] },
+    { id: 13, url: 'meme-imgs-square/13.jpg', keywords: ['crazy'] },
+    { id: 14, url: 'meme-imgs-square/14.jpg', keywords: ['fun'] },
+    { id: 15, url: 'meme-imgs-square/15.jpg', keywords: ['Music'] },
+    { id: 16, url: 'meme-imgs-square/16.jpg', keywords: ['happy'] },
+    { id: 17, url: 'meme-imgs-square/17.jpg', keywords: ['sad'] },
+    { id: 18, url: 'meme-imgs-square/18.jpg', keywords: ['crazy'] },
 ];
 var gMeme;
-
+var gCurrLineIdx = 0;
+var gCurrLineHeight = 20;
 
 function getCurrImgById() {
     var imgId = gMeme.selectedImgId;
@@ -28,12 +42,17 @@ function getCurrMeme() {
     return gMeme;
 }
 
+function getCurrLine() {
+    return gMeme.lines[gMeme.selectedLineIdx];
+}
+
 function setLineTxt(txt) {
     gMeme.lines[gMeme.selectedLineIdx].txt = txt;
+    // console.log(gMeme.selectedLineIdx);
 }
 
 function setLineLocation(locationObj) {
-    gMeme.lines[gMeme.selectedLineIdx]['location'] = locationObj;
+    gMeme.lines[gMeme.selectedLineIdx].location = { ...locationObj };
 }
 
 function setFontSize(diff) {
@@ -41,20 +60,11 @@ function setFontSize(diff) {
 }
 
 function createMeme(imgId) {
+    gCurrLineHeight = 20;
     gMeme = {
         selectedImgId: imgId,
         selectedLineIdx: 0,
-        lines: [
-            {
-                txt: 'Caption',
-                size: 40,
-                align: 'center',
-                color: 'black',
-                strokeColor: 'white',
-                strokeWidth: 2,
-                marked: false
-            }
-        ]
+        lines: [createLine()]
     }
 }
 
@@ -81,21 +91,58 @@ function setTextAlignment(alignVal) {
     gMeme.lines[gMeme.selectedLineIdx].align = alignVal;
 }
 
-function toggleLineMark(isMarked) {
-    gMeme.lines[gMeme.selectedLineIdx].marked = isMarked;
-    console.log(gMeme.lines[gMeme.selectedLineIdx].marked);
+function toggleLineMark() {
+    gMeme.lines[gMeme.selectedLineIdx].isMarked = !gMeme.lines[gMeme.selectedLineIdx].isMarked;
+    // console.log(gMeme.lines[gMeme.selectedLineIdx].isMarked);
+}
+
+function unMarkAllLines() {
+    gMeme.lines.forEach(line => {
+        line.isMarked = false;
+    });
+}
+
+function createLine() {
+    return {
+        txt: 'Caption',
+        idx: gCurrLineIdx,
+        size: 40,
+        location: { x: gCanvas.width / 2, y: gCanvas.height / 2, width: null, height: null },
+        align: 'center',
+        color: 'black',
+        strokeColor: 'white',
+        strokeWidth: 2,
+        isMarked: true,
+    }
 }
 
 function addLine() {
+    gCurrLineIdx++;
+    updateSelectedLineIdx(gCurrLineIdx);
     gMeme.lines.push(
         {
             txt: 'Caption',
+            idx: gCurrLineIdx,
             size: 40,
+            location: { x: gCanvas.width / 2, y: gCanvas.height / 2, width: null, height: null },
             align: 'center',
             color: 'black',
             strokeColor: 'white',
             strokeWidth: 2,
-            marked: false
+            isMarked: true,
         }
     )
+}
+
+function updateSelectedLineIdx(idx) {
+    gMeme.selectedLineIdx = idx;
+}
+
+function moveBetweenLines() {
+    const linesLength = gMeme.lines.length;
+    const nextLineIdx = (gMeme.selectedLineIdx + 1 === linesLength) ? 0 : gMeme.selectedLineIdx + 1;
+    console.log(nextLineIdx);
+    updateSelectedLineIdx(nextLineIdx);
+    unMarkAllLines();
+    toggleLineMark();
 }

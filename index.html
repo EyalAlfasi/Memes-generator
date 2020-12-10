@@ -25,7 +25,7 @@
     </header>
     <section class="canvas-and-controlles-container">
         <div class="canvas-container">
-            <canvas class="main-canvas"></canvas>
+            <canvas class="main-canvas" onmousedown="updateMouseDown(true)" onmouseup="updateMouseDown(false)"></canvas>
         </div>
         <div class="controlles-container">
             <div class="editing-row editing-row-1">
@@ -53,9 +53,9 @@
                         src="icons/align-to-right.png"></button>
             </div>
             <div class="editing-row editing-row-4">
-                <select name="fonts">
+                <!-- <select name="fonts">
                     <option value="impact">Impact</option>
-                </select>
+                </select> -->
                 <button class="icon-btn" value="stroke" onclick="onControlBtnClick(this.value)"><img
                         src="icons/text-stroke.png"></button>
                 <button class="icon-btn" value="font-color" onclick="onControlBtnClick(this.value)"><img
