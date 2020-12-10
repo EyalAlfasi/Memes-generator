@@ -29,7 +29,15 @@ function getCurrMeme() {
 }
 
 function setLineTxt(txt) {
-    gMeme.lines[0].txt = txt;
+    gMeme.lines[gMeme.selectedLineIdx].txt = txt;
+}
+
+function setLineLocation(locationObj) {
+    gMeme.lines[gMeme.selectedLineIdx]['location'] = locationObj;
+}
+
+function setFontSize(diff) {
+    gMeme.lines[gMeme.selectedLineIdx].size += diff;
 }
 
 function createMeme(imgId) {
@@ -39,10 +47,55 @@ function createMeme(imgId) {
         lines: [
             {
                 txt: 'Caption',
-                size: 20,
+                size: 40,
                 align: 'center',
-                color: 'white'
+                color: 'black',
+                strokeColor: 'white',
+                strokeWidth: 2,
+                marked: false
             }
         ]
     }
+}
+
+function getLineClicked(offset) {
+    if (!gMeme) return
+    const memeLines = gMeme.lines;
+    return memeLines.find(line => {
+        const location = line.location;
+        const alignment = line.align;
+        if (alignment === 'center') {
+            return (offset.x > location.x - location.width / 2 && offset.x < location.x + location.width / 2
+                && offset.y > location.y && offset.y < location.y + location.height)
+        } else if (alignment === 'start') {
+            return ((offset.x > location.x && offset.x < location.x + location.width) &&
+                offset.y > location.y && offset.y < location.y + location.height)
+        } else {
+            return (offset.x < location.x && offset.x > location.x - location.width) &&
+                (offset.y > location.y && offset.y < location.y + location.height)
+        }
+    })
+}
+
+function setTextAlignment(alignVal) {
+    gMeme.lines[gMeme.selectedLineIdx].align = alignVal;
+}
+
+function toggleLineMark(isMarked) {
+    gMeme.lines[gMeme.selectedLineIdx].marked = isMarked;
+    console.log(gMeme.lines[gMeme.selectedLineIdx].marked);
+}
+
+function addLine() {
+    gMeme.lines.push(
+        {
+            txt: 'Caption',
+            size: 40,
+            align: 'center',
+            color: 'black',
+            strokeColor: 'white',
+            strokeWidth: 2,
+            marked: false
+        }
+    )
 }

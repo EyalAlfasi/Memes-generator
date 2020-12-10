@@ -5,6 +5,7 @@ var gCtx;
 
 function init() {
     gCanvas = document.querySelector('.main-canvas');
+    addCanvasEventListeners();
     gCtx = gCanvas.getContext('2d');
     gCanvas.width = '500';
     gCanvas.height = '500';
@@ -12,42 +13,89 @@ function init() {
 }
 
 
+function onControlBtnClick(actionName) {
+    switch (actionName) {
+        case 'increase-font': {
+            setFontSize(2);
+        }
+            break
+        case 'decrease-font': {
+            setFontSize(-2);
+        }
+            break
+        case 'align-right': {
+            onAlignText('start');
+        }
+            break
+        case 'align-center': {
+            onAlignText('center');
+        }
+            break
+        case 'align-left': {
+            onAlignText('end');
+        }
+            break
+        case 'add': {
+            onAddLine();
+        }
+            break
+    }
+    clearCanvas();
+    drawCanvas();
+}
 
 function drawCanvas() {
-    const meme = getCurrMeme();
-    const img = getCurrImgObjById(meme.selectedImgId);
+    drawImg();
+    drawText();
 }
 
 function drawText() {
-    var text = getCurrMeme()
-    const width = gCanvas.width / 2;
-    const height = gCanvas.height / 2 * 0.25;
-    gCtx.lineWidth = '1'
-    gCtx.font = '40px Impact'
-    gCtx.textAlign = 'center'
-    gCtx.fillText(text.lines[0].txt, width, height)
-    gCtx.strokeStyle = 'red';
-    gCtx.strokeText(text.lines[0].txt, width, height)
+    const meme = getCurrMeme()
+    if (!meme) return;
+    const x = gCanvas.width / 2;
+    const y = gCanvas.height / 2 * 0.25;
+    meme.lines.forEach(line => {
+        gCtx.lineWidth = `${line.strokeWidth}`
+        gCtx.font = `${line.size}px Impact`
+        gCtx.textAlign = `${line.align}`
+        gCtx.textBaseline = "top";
+        gCtx.fillStyle = `${line.color}`;
+        gCtx.strokeStyle = `${line.strokeColor}`;
+        const txtWidth = gCtx.measureText(line.txt).width;
+        gCtx.fillText(line.txt, x, y)
+        gCtx.strokeText(line.txt, x, y)
+        setLineLocation({ x: x, y: y, width: txtWidth, height: line.strokeWidth + line.size });
+        if (line.marked) drawFrame(line);
+        // drawPointer(x, y, txtWidth, line.strokeWidth + line.size)
+    });
 }
 
 function onImgPick(imgId) {
     createMeme(imgId);
-    drawImg();
+    drawCanvas();
+}
+
+function drawFrame(line) {
+    const location = line.location;
+    const alignment = line.align;
+    gCtx.strokeStyle = `white`;
+    if (alignment === 'center') gCtx.strokeRect(location.x - (location.width / 2) - 10, location.y, location.width + 20, location.height);
+    else if (alignment === 'start') gCtx.strokeRect(location.x - 10, location.y, location.width + 20, location.height);
+    else gCtx.strokeRect(location.x - location.width - 10, location.y, location.width + 20, location.height);
+
 }
 
 function drawImg() {
     const imgObj = getCurrImgById();
     var img = new Image();
     img.src = `${imgObj.url}`;
-
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,xend,yend
-
+    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,xend,yend
 }
 
 function onLineTyping(txt) {
     setLineTxt(txt)
-    clearCanvasAndKeepImg();
-    drawText(txt);
+    clearCanvas();
+    drawCanvas(txt);
 }
 
 function renderImgsGallery() {
@@ -59,15 +107,32 @@ function renderImgsGallery() {
     elImgsContainer.innerHTML = strHTMLs;
 }
 
-function onControlBtnClick(btnName) {
-    switch (btnName) {
-        case 'add': {
 
-        }
+function clearCanvas() {
+    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+}
+
+function addCanvasEventListeners() {
+    gCanvas.addEventListener('click', markCurrLine);
+}
+
+
+function markCurrLine(ev) {
+    const offset = { x: ev.offsetX, y: ev.offsetY };
+    const line = getLineClicked(offset)
+    if (line && !line.marked) {
+        toggleLineMark(true);
+        drawCanvas();
+    } else {
+        toggleLineMark(false);
+        drawCanvas();
     }
 }
 
-function clearCanvasAndKeepImg() {
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-    drawImg();
+function onAlignText(alignVal) {
+    setTextAlignment(alignVal);
+}
+
+function onAddLine() {
+    addLine();
 }

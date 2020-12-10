@@ -39,7 +39,7 @@ a {
 }
 
 
-.icon-btn img{
+.icon-btn img {
     width: 40px;
     height: 40px;
 }
@@ -55,11 +55,11 @@ a {
     align-items: center;
 }
 
-.canvas-and-controlles-container .controlles-container{
+.canvas-and-controlles-container .controlles-container {
     flex-direction: column;
 }
 
-.imgs-gallery-inner-container img{
+.imgs-gallery-inner-container img {
     height: 200px;
 }
 
@@ -70,4 +70,3 @@ a {
     justify-content: center;
     grid-template-columns: repeat(auto-fit, 200px);
 }
-
