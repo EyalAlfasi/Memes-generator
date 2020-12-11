@@ -41,8 +41,11 @@ function onControlBtnClick(actionName) {
         }
             break
         case 'up-down': {
-            console.log('hi');
             onMoveBetweenLines();
+        }
+            break
+        case 'trash': {
+            onDeleteLine();
         }
             break
     }
@@ -58,7 +61,7 @@ function drawCanvas() {
 function drawText() {
     const meme = getCurrMeme()
     if (!meme) return;
-    meme.lines.forEach(line => {
+    meme.lines.forEach((line, idx) => {
         const location = line.location;
         gCtx.lineWidth = `${line.strokeWidth}`
         gCtx.font = `${line.size}px Impact`
@@ -69,7 +72,7 @@ function drawText() {
         const txtWidth = gCtx.measureText(line.txt).width;
         gCtx.fillText(line.txt, location.x, location.y)
         gCtx.strokeText(line.txt, location.x, location.y)
-        if (meme.selectedLineIdx === line.idx) {
+        if (meme.selectedLineIdx === idx) {
             setLineLocation({ x: location.x, y: location.y, width: txtWidth, height: line.strokeWidth + line.size });
         }
         if (line.isMarked) drawFrame(line);
@@ -78,8 +81,8 @@ function drawText() {
 
 function onImgPick(imgId) {
     createMeme(imgId);
-    showEditor();
-    hideImgGallery();
+    // showEditor();
+    // hideImgGallery();
     drawCanvas();
 }
 
@@ -130,13 +133,12 @@ function addCanvasEventListeners() {
 function onMarkLine(ev) {
     const offset = { x: ev.offsetX, y: ev.offsetY };
     const line = getLineClicked(offset)
-    console.log(line);
     if (!line) {
         unMarkAllLines();
         drawCanvas();
         return
     }
-    updateSelectedLineIdx(line.idx)
+    updateSelectedLineIdx(offset)
     unMarkAllLines();
     toggleLineMark();
     drawCanvas();
@@ -168,10 +170,14 @@ function updateMouseDown(val) {
     isMouseDown = val;
 }
 
-function showEditor(){
+function showEditor() {
     document.querySelector('.canvas-and-controlles-container').style.display = 'flex';
 }
 
-function hideImgGallery(){
+function hideImgGallery() {
     document.querySelector('.imgs-gallery-container').style.display = 'none';
+}
+
+function onDeleteLine() {
+    deleteLine();
 }

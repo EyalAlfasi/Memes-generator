@@ -23,9 +23,6 @@ a {
 .header-container {
     background-color: rgb(223, 223, 223);
     padding: 0 20px;
-    /* position: fixed; */
-    /* right: 0;
-    left: 0; */
 }
 
 .header-inner-container {
@@ -48,24 +45,16 @@ a {
 }
 
 .canvas-and-controlles-container {
-    display: none;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.canvas-and-controlles-container>div {
-    min-width: 50%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.canvas-and-controlles-container .controlles-container {
-    flex-direction: column;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .controlles-container{
-    background-color: rgb(28, 79, 155);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .imgs-gallery-inner-container img {
@@ -77,7 +66,7 @@ a {
 }
 
 .imgs-gallery-inner-container img:hover {
-    transform:translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .imgs-gallery-inner-container {
