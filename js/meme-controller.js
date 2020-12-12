@@ -14,6 +14,10 @@ function init() {
     renderImgsGallery();
 }
 
+function galleryPageLink() {
+    window.location = 'index.html';
+}
+
 function onControlBtnClick(actionName) {
     switch (actionName) {
         case 'increase-font': {
@@ -73,7 +77,7 @@ function drawText() {
         gCtx.fillText(line.txt, location.x, location.y)
         gCtx.strokeText(line.txt, location.x, location.y)
         if (meme.selectedLineIdx === idx) {
-            setLineLocation({ x: location.x, y: location.y, width: txtWidth, height: line.strokeWidth + line.size });
+            setLineLocation({ x: location.x, y: location.y, width: txtWidth, height: line.size + 10 });
         }
         if (line.isMarked) drawFrame(line);
     });
@@ -81,14 +85,15 @@ function drawText() {
 
 function onImgPick(imgId) {
     createMeme(imgId);
-    // showEditor();
-    // hideImgGallery();
+    showEditor();
+    hideImgGallery();
     drawCanvas();
 }
 
 function drawFrame(line) {
     const location = line.location;
     const alignment = line.align;
+    gCtx.lineWidth = 2;
     gCtx.strokeStyle = `white`;
     if (alignment === 'center') gCtx.strokeRect(location.x - (location.width / 2) - 10, location.y, location.width + 20, location.height);
     else if (alignment === 'start') gCtx.strokeRect(location.x - 10, location.y, location.width + 20, location.height);
@@ -153,6 +158,7 @@ function onDragLine(ev) {
     }
 }
 
+
 function onAlignText(alignVal) {
     setTextAlignment(alignVal);
 }
@@ -170,6 +176,11 @@ function updateMouseDown(val) {
     isMouseDown = val;
 }
 
+function updateTouchDown(val) {
+    isTouchDown = val;
+    console.log(isTouchDown);
+}
+
 function showEditor() {
     document.querySelector('.canvas-and-controlles-container').style.display = 'flex';
 }
@@ -180,4 +191,28 @@ function hideImgGallery() {
 
 function onDeleteLine() {
     deleteLine();
+}
+
+function onStrokeColorChange(color) {
+    strokeColorChange(color);
+    drawCanvas();
+}
+
+function onFontColorChange(color) {
+    fontColorChange(color);
+    drawCanvas();
+}
+
+function onStrokeWidthChange(width) {
+    strokeWidthChange(width);
+    drawCanvas();
+}
+
+function downloadImg(elLink) {
+elLink.href = gCanvas.toDataURL();
+elLink.download = 'my-meme.jpeg';
+}
+
+function toggleMenu() {
+    document.body.classList.toggle('open-menu');
 }

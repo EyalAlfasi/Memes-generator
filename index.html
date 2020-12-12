@@ -6,70 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memes generator!</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body onload="init()">
-    <header class="header-container">
+    <header class="header-container flex align-center flex-justify-center">
         <div class="header-inner-container">
             <div class="logo-container">
                 <h2>MemesGen</h2>
             </div>
             <nav class="nav-container">
                 <ul>
-                    <li><a href="index.html" class="nav-link">Gallery</a></li>
+                    <li><a onclick="galleryPageLink()" href="#" class="nav-link">Gallery</a></li>
                     <li><a href="#" class="nav-link">Memes</a></li>
                     <li><a href="#" class="nav-link">About</a></li>
                 </ul>
             </nav>
+            <div class="hamurger-btn" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </header>
-    <section class="canvas-and-controlles-container">
-        <div class="canvas-container">
-            <canvas class="main-canvas" onmousedown="updateMouseDown(true)" onmouseup="updateMouseDown(false)"></canvas>
-        </div>
-        <div class="controlles-container">
-            <div class="editing-row editing-row-1">
-                <input oninput="onLineTyping(this.value)" dir="auto" type="text" placeholder="Caption"
-                    class="text-line">
+    <main class="main-container">
+        <section class="canvas-and-controlles-container flex-justify-center">
+            <div class="canvas-and-controlles-inner-container main-layout flex flex-justify-between flex-column">
+                <div class="canvas-container flex flex-justify-center">
+                    <canvas class="main-canvas" onmousedown="updateMouseDown(true)"
+                        onmouseup="updateMouseDown(false)"></canvas>
+                </div>
+                <div class="controlles-container">
+                    <div class="editing-row">
+                        <input oninput="onLineTyping(this.value)" dir="auto" name="line-text" type="text"
+                            placeholder="Caption" class="text-line">
+                    </div>
+                    <div class="editing-row">
+                        <img src="icons/up-and-down-opposite-double-arrows-side-by-side.png" class="icon-btn"
+                            onclick="onControlBtnClick('up-down')">
+                        <img src="icons/add.png" class="icon-btn" onclick="onControlBtnClick('add')">
+                        <img src="icons/trash.png" class="icon-btn" onclick="onControlBtnClick('trash')">
+                    </div>
+                    <div class="editing-row">
+                        <img src="icons/increase-font-icon.png" class="icon-btn"
+                            onclick="onControlBtnClick('increase-font')">
+                        <img src="icons/decrease-font-icon.png" class="icon-btn"
+                            onclick="onControlBtnClick('decrease-font')">
+                        <img src="icons/align-to-left.png" class="icon-btn" onclick="onControlBtnClick('align-left')">
+                        <img src="icons/center-text-alignment.png" class="icon-btn"
+                            onclick="onControlBtnClick('align-center')">
+                        <img src="icons/align-to-right.png" class="icon-btn" onclick="onControlBtnClick('align-right')">
+                    </div>
+                    <div class="editing-row">
+                        <label for="stroke-color">Stroke color</label>
+                        <input oninput="onStrokeColorChange(this.value)" type="color" name="stroke-color"
+                            id="stroke-color">
+                        <label for="font-color">Font color</label>
+                        <input oninput="onFontColorChange(this.value)" type="color" name="font-color" id="font-color">
+                        <label for="stroke-color">Stroke width</label>
+                        <input oninput="onStrokeWidthChange(this.value)" type="number" min="0" max="10"
+                            name="stroke-width" id="stroke-width">
+                    </div>
+                    <div class="download-save-container">
+                        <a href="#" onclick="downloadImg(this)" class="download-link">
+                            Download meme
+                        </a>
+                        <a href="#" class="save-to-memes-link">Save to memes</a>
+                    </div>
+                </div>
             </div>
-            <div class="editing-row editing-row-2">
-                <button class="icon-btn" value="up-down" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
-                <button class="icon-btn" value="add" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/add.png"></button>
-                <button class="icon-btn" value="trash" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/trash.png"></button>
+        </section>
+        <section class="imgs-gallery-container">
+            <h2>Pick an image and create your own meme!</h2>
+            <span class="blue-divider"></span>
+            <div class="imgs-gallery-inner-container">
             </div>
-            <div class="editing-row editing-row-3">
-                <button class="icon-btn" value="increase-font" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/increase-font-icon.png"></button>
-                <button class="icon-btn" value="decrease-font" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/decrease-font-icon.png"></button>
-                <button class="icon-btn" value="align-left" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/align-to-left.png"></button>
-                <button class="icon-btn" value="align-center" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/center-text-alignment.png"></button>
-                <button class="icon-btn" value="align-right" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/align-to-right.png"></button>
-            </div>
-            <div class="editing-row editing-row-4">
-                <!-- <select name="fonts">
-                    <option value="impact">Impact</option>
-                </select> -->
-                <button class="icon-btn" value="stroke" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/text-stroke.png"></button>
-                <button class="icon-btn" value="font-color" onclick="onControlBtnClick(this.value)"><img
-                        src="icons/paint-board-and-brush.png"></button>
-            </div>
-        </div>
-    </section>
-    <section class="imgs-gallery-container">
-        <div class="imgs-gallery-inner-container">
-        </div>
-    </section>
+        </section>
+    </main>
+
+    <!-- LIB -->
+    <script src="lib/hammer.js"></script>
+    <!-- LIB -->
 
     <script src="js/meme-controller.js"></script>
     <script src="js/meme-service.js"></script>
+
 </body>
 
 </html>

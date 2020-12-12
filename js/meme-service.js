@@ -89,7 +89,6 @@ function setTextAlignment(alignVal) {
 
 function toggleLineMark() {
     gMeme.lines[gMeme.selectedLineIdx].isMarked = !gMeme.lines[gMeme.selectedLineIdx].isMarked;
-    // console.log(gMeme.lines[gMeme.selectedLineIdx].isMarked);
 }
 
 function unMarkAllLines() {
@@ -104,8 +103,8 @@ function createLine() {
         size: 40,
         location: { x: gCanvas.width / 2, y: gCanvas.height / 2, width: null, height: null },
         align: 'center',
-        color: 'black',
-        strokeColor: 'white',
+        color: 'white',
+        strokeColor: 'black',
         strokeWidth: 2,
         isMarked: true,
     }
@@ -119,8 +118,8 @@ function addLine() {
             size: 40,
             location: { x: gCanvas.width / 2, y: gCanvas.height / 2, width: null, height: null },
             align: 'center',
-            color: 'black',
-            strokeColor: 'white',
+            color: 'white',
+            strokeColor: 'black',
             strokeWidth: 2,
             isMarked: true,
         }
@@ -161,4 +160,16 @@ function getLineIdxByOffset(offset) {
 function deleteLine() {
     gMeme.lines.splice(gMeme.selectedLineIdx, 1);
     if (gMeme.lines.length > 0) gMeme.selectedLineIdx--;
+}
+
+function strokeColorChange(color) {
+    gMeme.lines[gMeme.selectedLineIdx].strokeColor = color;
+}
+
+function fontColorChange(color) {
+    gMeme.lines[gMeme.selectedLineIdx].color = color;
+}
+
+function strokeWidthChange(width) {
+    gMeme.lines[gMeme.selectedLineIdx].strokeWidth = width;
 }
