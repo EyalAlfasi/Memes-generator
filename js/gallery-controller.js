@@ -1,7 +1,8 @@
 'use strict'
 
-function galleryPageLink() {
-    window.location = 'index.html';
+function onGalleryLinkClick() {
+    hideEditor();
+    showImgGallery();
 }
 
 function onImgPick(imgId) {
@@ -37,4 +38,8 @@ function onFilterImgs(elKeyword){
 
 function hideImgGallery() {
     document.querySelector('.imgs-gallery-container').style.display = 'none';
+}
+
+function showImgGallery() {
+    document.querySelector('.imgs-gallery-container').style.display = 'block';
 }

@@ -1,6 +1,4 @@
 'use strict'
-
-
 var gMeme;
 
 function setCurrMemeImg(imgId) {
@@ -9,6 +7,10 @@ function setCurrMemeImg(imgId) {
 
 function getCurrMeme() {
     return gMeme;
+}
+
+function setCurrMeme(meme) {
+    gMeme = meme;
 }
 
 function getCurrLine() {
@@ -20,7 +22,7 @@ function setLineTxt(txt) {
 }
 
 function setLineLocation(locationObj) {
-    gMeme.lines[gMeme.selectedLineIdx].location =  locationObj ;
+    gMeme.lines[gMeme.selectedLineIdx].location = locationObj;
 }
 
 function setFontSize(diff) {
@@ -144,4 +146,3 @@ function fontColorChange(color) {
 function strokeWidthChange(width) {
     gMeme.lines[gMeme.selectedLineIdx].strokeWidth = width;
 }
-

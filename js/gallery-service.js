@@ -24,18 +24,22 @@ var gImgs = [
 ];
 
 function getCurrImgById() {
-    var imgId = gMeme.selectedImgId;
-    return gImgs.find(img => img.id === imgId)
+    // if (!gMeme.memeId) {
+        return gImgs.find(img => img.id === gMeme.selectedImgId)
+    // } else {
+    //     const savedMemes = getSavedMemes();
+    //     return savedMemes.find(meme => meme.memeId === gMeme.memeId)
+    // }
 }
 
 function getImgsGallery() {
-    // if(!gCurrKeyWord) return gImgs;
+    if(!gCurrKeyWord) return gImgs;
     let filteredKeywords = gImgs.filter(img => {
         return (img.keywords.findIndex(keyword => {
             return gCurrKeyWord === keyword;
         }) !== -1)
     })
-    return (filteredKeywords.length === 0) ? gImgs : filteredKeywords;
+    return filteredKeywords;
 }
 
 function setKeywordFilter(keyword) {
@@ -43,11 +47,6 @@ function setKeywordFilter(keyword) {
 }
 
 function getKeywords() {
-    // let keywords = [];
-    // gImgs.forEach(img => {
-    //     keywords = [...keywords, ...img.keywords]
-    // })
-
     let keywords = gImgs.reduce((acc, img) => {
         acc.push(...img.keywords);
         return acc;
@@ -56,10 +55,6 @@ function getKeywords() {
     let newKeyWords = [];
 
     keywords.forEach(keyword => {
-        // (newKeyWords.findIndex(currKeyword => {
-        //     return currKeyword === keyword;
-        // }) === -1) && newKeyWords.push(keyword);
-
         const keywordIdx = newKeyWords.findIndex(currKeyword => {
             return currKeyword === keyword;
         });

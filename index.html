@@ -13,12 +13,12 @@
 <body onload="onInit()">
     <header class="header-container flex align-center flex-justify-center">
         <div class="header-inner-container">
-            <div class="logo-container">
+            <div onclick="onGalleryLinkClick()" class="logo-container">
                 <h2>MemesGen</h2>
             </div>
             <nav class="nav-container">
                 <ul>
-                    <li><a onclick="galleryPageLink()" href="#" class="nav-link">Gallery</a></li>
+                    <li><a onclick="onGalleryLinkClick()" href="#" class="nav-link">Gallery</a></li>
                     <li><a href="#" class="nav-link">Memes</a></li>
                     <li><a href="#" class="nav-link">About</a></li>
                 </ul>
@@ -35,7 +35,8 @@
             <div class="canvas-and-controlles-inner-container main-layout flex flex-justify-between flex-column">
                 <div class="canvas-container flex flex-justify-center">
                     <canvas class="main-canvas" onmousedown="updateMouseDown(event, true)"
-                        onmouseup="updateMouseDown(event,false)"></canvas>
+                        onmouseup="updateMouseDown(event,false)" onclick="onMarkLine(event)"
+                        onmousemove="onDragLine(event)"></canvas>
                 </div>
                 <div class="controlles-container">
                     <div class="editing-row">
@@ -89,16 +90,20 @@
             <div class="imgs-gallery-inner-container">
             </div>
         </section>
+        <!-- <section class="saved-memes-container">
+            <h2>Edit or download your saved memes!</h2>
+            <span class="blue-divider"></span>
+            <div class="saved-memes-inner-container">
+            </div>
+        </section> -->
     </main>
-
-    <!-- LIB -->
-    <script src="lib/hammer.js"></script>
-    <!-- LIB -->
 
     <script src="js/meme-service.js"></script>
     <script src="js/gallery-service.js"></script>
     <script src="js/touch-handler.js"></script>
     <script src="js/meme-controller.js"></script>
+    <!-- <script src="js/saved-memes-controller.js"></script> -->
+    <!-- <script src="js/saved-memes-service.js"></script> -->
     <script src="js/gallery-controller.js"></script>
 
 </body>

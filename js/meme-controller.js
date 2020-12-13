@@ -7,7 +7,6 @@ var isMouseDown = false;
 
 function onInit() {
     gCanvas = document.querySelector('.main-canvas');
-    addCanvasEventListeners();
     gCtx = gCanvas.getContext('2d');
     gCanvas.width = '400';
     gCanvas.height = '400';
@@ -111,11 +110,6 @@ function clearCanvas() {
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 }
 
-function addCanvasEventListeners() {
-    gCanvas.addEventListener('click', onMarkLine);
-    gCanvas.addEventListener('mousemove', onDragLine);
-}
-
 function onMarkLine(ev) {
     const offset = { x: ev.offsetX, y: ev.offsetY };
     const line = getLineClicked(offset)
@@ -161,13 +155,12 @@ function updateMouseDown(ev, val) {
     isMouseDown = val;
 }
 
-function updateTouchDown(val) {
-    isTouchDown = val;
-    console.log(isTouchDown);
-}
-
 function showEditor() {
     document.querySelector('.canvas-and-controlles-container').style.display = 'flex';
+}
+
+function hideEditor() {
+    document.querySelector('.canvas-and-controlles-container').style.display = 'none';
 }
 
 function onDeleteLine() {
@@ -192,6 +185,12 @@ function onStrokeWidthChange(width) {
 function downloadImg(elLink) {
     elLink.href = gCanvas.toDataURL();
     elLink.download = 'my-meme.jpeg';
+}
+
+function onSaveMeme() {
+    const memeData = gCanvas.toDataURL('image/jpeg');
+    saveMeme(memeData);
+    renderSavedMemes();
 }
 
 function toggleMenu() {
