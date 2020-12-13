@@ -70,6 +70,8 @@ input[name='line-text']::placeholder {
 .header-container a {
     color: #f9f9f9;
     font-weight: 700;
+    display: inline-block;
+    width: 100%;
 }
 
 .header-container li {
@@ -136,10 +138,10 @@ input[name='line-text']::placeholder {
 .download-save-container a {
     background-color: #1846aa;
     color: #f9f9f9;
-    padding: 10px;
-    font-size: 1rem;
+    padding: 5px;
+    font-size: 0.8rem;
     border-radius: 5px;
-    font-weight: bold;
+    font-weight: 700;
     transition: all 0.2s ease;
 }
 
@@ -314,7 +316,6 @@ body.open-menu .hamurger-btn span:nth-child(3) {
 
 @media (max-width:768px) {
     .header-inner-container>nav>ul {
-        display: flex;
         flex-direction: column;
     }
     .header-container .nav-container ul {
@@ -347,6 +348,7 @@ body.open-menu .hamurger-btn span:nth-child(3) {
 @media (min-width:768px) {
     .header-container a {
         font-weight: 700;
+        width: unset;
         font-size: 1.2rem;
         color: #f9f9f9;
         padding: 10px;

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
-<body onload="init()">
+<body onload="onInit()">
     <header class="header-container flex align-center flex-justify-center">
         <div class="header-inner-container">
             <div class="logo-container">
@@ -34,8 +34,8 @@
         <section class="canvas-and-controlles-container flex-justify-center">
             <div class="canvas-and-controlles-inner-container main-layout flex flex-justify-between flex-column">
                 <div class="canvas-container flex flex-justify-center">
-                    <canvas class="main-canvas" onmousedown="updateMouseDown(true)"
-                        onmouseup="updateMouseDown(false)"></canvas>
+                    <canvas class="main-canvas" onmousedown="updateMouseDown(event, true)"
+                        onmouseup="updateMouseDown(event,false)"></canvas>
                 </div>
                 <div class="controlles-container">
                     <div class="editing-row">
@@ -73,6 +73,7 @@
                             Download meme
                         </a>
                         <a href="#" class="save-to-memes-link">Save to memes</a>
+                        <a href="#" class="share-to-facebook-link">Share to Facebook</a>
                     </div>
                 </div>
             </div>
@@ -94,8 +95,11 @@
     <script src="lib/hammer.js"></script>
     <!-- LIB -->
 
-    <script src="js/meme-controller.js"></script>
     <script src="js/meme-service.js"></script>
+    <script src="js/gallery-service.js"></script>
+    <script src="js/touch-handler.js"></script>
+    <script src="js/meme-controller.js"></script>
+    <script src="js/gallery-controller.js"></script>
 
 </body>
 
