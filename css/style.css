@@ -92,9 +92,6 @@ input[name='line-text']::placeholder {
 
 .logo-container{
     cursor: pointer;
-    background-color: #27db96;
-    border-radius: 50px;
-    padding: 0 20px;
 }
 
 .icon-btn {
