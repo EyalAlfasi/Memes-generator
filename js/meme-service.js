@@ -10,7 +10,8 @@ function getCurrMeme() {
 }
 
 function setCurrMeme(meme) {
-    gMeme = meme;
+    gMeme = {...meme};
+    console.log(gMeme);
 }
 
 function getCurrLine() {

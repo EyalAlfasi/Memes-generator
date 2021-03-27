@@ -8,10 +8,24 @@ var isMouseDown = false;
 function onInit() {
     gCanvas = document.querySelector('.main-canvas');
     gCtx = gCanvas.getContext('2d');
-    gCanvas.width = '400';
-    gCanvas.height = '400';
+    gCanvas.width = window.innerWidth < 480 ? '250' : '500';
+    gCanvas.height = window.innerWidth < 480 ? '250' : '500';
     renderImgsKeywords();
     renderImgsGallery();
+    loadSavedMemes();
+    window.addEventListener('resize', resizeCanvas);
+}
+
+function resizeCanvas() {
+    if (window.innerWidth < 480) {
+        gCanvas.width = '250';
+        gCanvas.height = '250';
+        drawCanvas()
+    } else if (window.innerWidth < 768 && window.innerWidth > 480) {
+        gCanvas.width = '500';
+        gCanvas.height = '500';
+        drawCanvas()
+    }
 }
 
 
@@ -188,8 +202,12 @@ function downloadImg(elLink) {
 }
 
 function onSaveMeme() {
+    unMarkAllLines();
+    drawCanvas();
     const memeData = gCanvas.toDataURL('image/jpeg');
     saveMeme(memeData);
+    hideEditor();
+    showSavedMemes();
     renderSavedMemes();
 }
 

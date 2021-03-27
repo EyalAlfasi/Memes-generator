@@ -2,10 +2,12 @@
 
 function onGalleryLinkClick() {
     hideEditor();
+    hideSavedMemes();
     showImgGallery();
 }
 
 function onImgPick(imgId) {
+    console.log(imgId);
     createMeme(imgId);
     showEditor();
     hideImgGallery();
@@ -16,7 +18,7 @@ function renderImgsGallery() {
     const elImgsContainer = document.querySelector('.imgs-gallery-inner-container');
     const imgs = getImgsGallery();
     let strHTMLs = imgs.map(img => {
-        return `<img src="${img.url}" onclick="onImgPick(${img.id})">`
+        return `<img src="${img.url}" onclick="onImgPick('${img.id}')">`
     }).join('');
     elImgsContainer.innerHTML = strHTMLs;
 }
